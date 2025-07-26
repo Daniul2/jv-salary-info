@@ -6,7 +6,6 @@ import java.time.format.DateTimeFormatter;
 public class SalaryInfo {
     private static final DateTimeFormatter DATE_FORMATTER =
             DateTimeFormatter.ofPattern("dd.MM.yyyy");
-
     private static final int DATE_INDEX = 0;
     private static final int NAME_INDEX = 1;
     private static final int HOURS_INDEX = 2;
@@ -27,7 +26,10 @@ public class SalaryInfo {
             int salaryTotal = 0;
 
             for (String employeeRecord : data) {
-                String[] employeeInfo = employeeRecord.split(" ");
+                String[] employeeInfo = employeeRecord.trim().split("\\s+");
+                if (employeeInfo.length < 4) {
+                    continue;
+                }
                 String workDateString = employeeInfo[DATE_INDEX].trim();
                 String nameOfEmployee = employeeInfo[NAME_INDEX].trim();
                 int hoursWorked = Integer.parseInt(employeeInfo[HOURS_INDEX].trim());
