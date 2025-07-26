@@ -32,8 +32,14 @@ public class SalaryInfo {
                 }
                 String workDateString = employeeInfo[DATE_INDEX].trim();
                 String nameOfEmployee = employeeInfo[NAME_INDEX].trim();
-                int hoursWorked = Integer.parseInt(employeeInfo[HOURS_INDEX].trim());
-                int hourlyRate = Integer.parseInt(employeeInfo[RATE_INDEX].trim());
+                int hoursWorked;
+                int hourlyRate;
+                try {
+                    hoursWorked = Integer.parseInt(employeeInfo[HOURS_INDEX].trim());
+                    hourlyRate = Integer.parseInt(employeeInfo[RATE_INDEX].trim());
+                } catch (NumberFormatException e) {
+                    continue; // пропускаємо некоректний рядок
+                }
 
                 if (nameOfEmployee.equals(employeeName)) {
                     LocalDate workDate = LocalDate.parse(workDateString, DATE_FORMATTER);
