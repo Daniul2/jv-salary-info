@@ -4,8 +4,13 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SalaryInfo {
-    private static final DateTimeFormatter DATE_FORMATTER
-            = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter DATE_FORMATTER =
+            DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
+    private static final int DATE_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int HOURS_INDEX = 2;
+    private static final int RATE_INDEX = 3;
 
     public String getSalaryInfo(String[] names, String[] data, String dateFrom, String dateTo) {
         LocalDate periodStart = LocalDate.parse(dateFrom.trim(), DATE_FORMATTER);
@@ -17,18 +22,19 @@ public class SalaryInfo {
                 .append(dateTo.trim())
                 .append(System.lineSeparator());
 
-        for (String employeeName : names) {
+        for (int i = 0; i < names.length; i++) {
+            String employeeName = names[i];
             int salaryTotal = 0;
 
-            for (String dates : data) {
-                String[] employeeInfo = dates.split(" ");
-                String startDateWork = employeeInfo[0];
-                String nameOfEmployee = employeeInfo[1];
-                int hoursWorked = Integer.parseInt(employeeInfo[2]);
-                int hourlyRate = Integer.parseInt(employeeInfo[3]);
+            for (String employeeRecord : data) {
+                String[] employeeInfo = employeeRecord.split(" ");
+                String workDateString = employeeInfo[DATE_INDEX];
+                String nameOfEmployee = employeeInfo[NAME_INDEX];
+                int hoursWorked = Integer.parseInt(employeeInfo[HOURS_INDEX]);
+                int hourlyRate = Integer.parseInt(employeeInfo[RATE_INDEX]);
 
                 if (nameOfEmployee.equals(employeeName)) {
-                    LocalDate workDate = LocalDate.parse(startDateWork, DATE_FORMATTER);
+                    LocalDate workDate = LocalDate.parse(workDateString, DATE_FORMATTER);
                     if (!workDate.isBefore(periodStart) && !workDate.isAfter(periodEnd)) {
                         salaryTotal += hoursWorked * hourlyRate;
                     }
@@ -36,14 +42,11 @@ public class SalaryInfo {
             }
             report.append(employeeName)
                     .append(" - ")
-                    .append(salaryTotal)
-                    .append(System.lineSeparator());
+                    .append(salaryTotal);
+            if (i < names.length - 1) {
+                report.append(System.lineSeparator());
+            }
         }
-        // Remove the last line separator if present
-        String result = report.toString();
-        if (result.endsWith(System.lineSeparator())) {
-            result = result.substring(0, result.length() - System.lineSeparator().length());
-        }
-        return result;
+        return report.toString();
     }
 }
