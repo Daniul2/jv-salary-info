@@ -23,15 +23,15 @@ public class SalaryInfo {
                 .append(System.lineSeparator());
 
         for (int i = 0; i < names.length; i++) {
-            String employeeName = names[i];
+            String employeeName = names[i].trim();
             int salaryTotal = 0;
 
             for (String employeeRecord : data) {
                 String[] employeeInfo = employeeRecord.split(" ");
-                String workDateString = employeeInfo[DATE_INDEX];
-                String nameOfEmployee = employeeInfo[NAME_INDEX];
-                int hoursWorked = Integer.parseInt(employeeInfo[HOURS_INDEX]);
-                int hourlyRate = Integer.parseInt(employeeInfo[RATE_INDEX]);
+                String workDateString = employeeInfo[DATE_INDEX].trim();
+                String nameOfEmployee = employeeInfo[NAME_INDEX].trim();
+                int hoursWorked = Integer.parseInt(employeeInfo[HOURS_INDEX].trim());
+                int hourlyRate = Integer.parseInt(employeeInfo[RATE_INDEX].trim());
 
                 if (nameOfEmployee.equals(employeeName)) {
                     LocalDate workDate = LocalDate.parse(workDateString, DATE_FORMATTER);
