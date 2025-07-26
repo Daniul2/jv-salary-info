@@ -39,6 +39,11 @@ public class SalaryInfo {
                     .append(salaryTotal)
                     .append(System.lineSeparator());
         }
-        return report.toString().trim();
+        // Remove the last line separator if present
+        String result = report.toString();
+        if (result.endsWith(System.lineSeparator())) {
+            result = result.substring(0, result.length() - System.lineSeparator().length());
+        }
+        return result;
     }
 }
